@@ -17,7 +17,7 @@ insert into location (name, city, street, postal_code, phone, employee_count) va
     ('Oddział Wrocław',  'Wrocław',  'ul. Legnicka 48',     '54-202', '+48 21 37 420 66', 45),
     ('Oddział Warszawa', 'Warszawa', 'ul. Marszałkowska 10', '00-590', '+48 21 37 420 67', 80),
     ('Oddział Kraków',   'Kraków',   'ul. Dietla 25',       '31-070', '+48 21 37 420 68', 30),
-    ('Oddział Gdańsk',   'Gdańsk',   'ul. Długa 5',         '80-827', '+48 21 37 420 69', 22);
+    ('Oddział Gdańsk',   'Gdańsk',   'ul. Kręta 5',         '80-827', '+48 21 37 420 69', 22);
 
 -- ===== LAB 02 · equipment =====
 insert into equipment (name, serial_number, category, purchase_date, purchase_price, status) values

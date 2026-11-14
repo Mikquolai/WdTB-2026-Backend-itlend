@@ -4,9 +4,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
@@ -14,6 +17,7 @@ import java.time.LocalDate;
 
 /**
  * Egzemplarz sprzętu IT (laptop, monitor, projektor), identyfikowany numerem seryjnym.
+ * Należy do oddziału macierzystego (location).
  */
 @Entity
 @Table(name = "equipment")
@@ -43,17 +47,23 @@ public class Equipment {
     @Column(name = "status", nullable = false, length = 20)
     private EquipmentStatus status;
 
+    /** Oddział macierzysty: wiele egzemplarzy → jeden oddział. */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location;
+
     protected Equipment() {
     }
 
-    public Equipment(String name, String serialNumber, EquipmentCategory category,
-                     LocalDate purchaseDate, BigDecimal purchasePrice, EquipmentStatus status) {
+    public Equipment(String name, String serialNumber, EquipmentCategory category, LocalDate purchaseDate,
+                     BigDecimal purchasePrice, EquipmentStatus status, Location location) {
         this.name = name;
         this.serialNumber = serialNumber;
         this.category = category;
         this.purchaseDate = purchaseDate;
         this.purchasePrice = purchasePrice;
         this.status = status;
+        this.location = location;
     }
 
     public Long getId() {
@@ -82,5 +92,9 @@ public class Equipment {
 
     public EquipmentStatus getStatus() {
         return status;
+    }
+
+    public Location getLocation() {
+        return location;
     }
 }

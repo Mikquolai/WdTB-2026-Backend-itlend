@@ -20,10 +20,11 @@ insert into location (name, city, street, postal_code, phone, employee_count) va
     ('Oddział Gdańsk',   'Gdańsk',   'ul. Kręta 5',         '80-827', '+48 21 37 420 69', 22);
 
 -- ===== LAB 02 · equipment =====
-insert into equipment (name, serial_number, category, purchase_date, purchase_price, status) values
-    ('Dell Latitude 5440',     'DL-2024-0017', 'LAPTOP',    '2024-03-12', 4200.00, 'LOANED'),
-    ('Projektor Epson EB-X49', 'EP-2023-0004', 'PROJECTOR', '2023-09-01', 2300.00, 'AVAILABLE'),
-    ('Monitor LG 27UP650',     'LG-2024-0102', 'MONITOR',   '2024-06-20', 1350.00, 'IN_SERVICE');
+insert into equipment (name, serial_number, category, purchase_date, purchase_price, status, location_id) values
+    ('Dell Latitude 5440',     'DL-2024-0017', 'LAPTOP',    '2024-03-12', 4200.00, 'LOANED',     1),
+    ('Projektor Epson EB-X49', 'EP-2023-0004', 'PROJECTOR', '2023-09-01', 2300.00, 'AVAILABLE',  2),
+    ('Monitor LG 27UP650',     'LG-2024-0102', 'MONITOR',   '2024-06-20', 1350.00, 'IN_SERVICE', 3),
+    ('Lenovo ThinkPad T14',    'LN-2025-0031', 'LAPTOP',    '2025-02-03', 4800.00, 'LOANED',     3);
 
 -- ===== LAB 02 · loan =====
 insert into loan (borrower_name, purpose, status, returned_at, start_date, end_date) values

@@ -4,16 +4,22 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Wypożyczenie sprzętu: kto, w jakim celu, na jaki okres i w jakim jest stanie.
- * Relacje (sprzęt, oddział, konto) dojdą na kolejnych zajęciach.
+ * Wypożyczenie sprzętu: kto (pracownik), w jakim celu, na jaki okres i w jakim jest stanie.
+ * Wypożyczony sprzęt to pozycje (LoanItem).
  */
 @Entity
 @Table(name = "loan")
@@ -23,8 +29,10 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "borrower_name", nullable = false, length = 80)
-    private String borrowerName;
+    /** Wypożyczający: wiele wypożyczeń → jeden pracownik. */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 
     @Column(name = "purpose", length = 200)
     private String purpose;
@@ -43,12 +51,16 @@ public class Loan {
     @Column(name = "returned_at")
     private LocalDate returnedAt;
 
+    /** Pozycje wypożyczenia: drugi koniec relacji LoanItem.loan (nie tworzy kolumny). */
+    @OneToMany(mappedBy = "loan")
+    private List<LoanItem> items = new ArrayList<>();
+
     protected Loan() {
     }
 
-    public Loan(String borrowerName, String purpose, LoanStatus status,
+    public Loan(Employee employee, String purpose, LoanStatus status,
                 LocalDate startDate, LocalDate endDate, LocalDate returnedAt) {
-        this.borrowerName = borrowerName;
+        this.employee = employee;
         this.purpose = purpose;
         this.status = status;
         this.startDate = startDate;
@@ -60,8 +72,8 @@ public class Loan {
         return id;
     }
 
-    public String getBorrowerName() {
-        return borrowerName;
+    public Employee getEmployee() {
+        return employee;
     }
 
     public String getPurpose() {
@@ -82,5 +94,9 @@ public class Loan {
 
     public LocalDate getReturnedAt() {
         return returnedAt;
+    }
+
+    public List<LoanItem> getItems() {
+        return items;
     }
 }
